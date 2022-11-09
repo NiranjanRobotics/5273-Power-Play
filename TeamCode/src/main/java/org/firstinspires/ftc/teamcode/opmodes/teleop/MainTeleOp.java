@@ -11,8 +11,7 @@ import org.firstinspires.ftc.teamcode.drive.RRMecanumDrive;
 
 @TeleOp(name = "Main TeleOp", group = "Competition")
 public class MainTeleOp extends BaseOpMode {
-//    private double cycle = 0;
-//    private double prevRead = 0;
+
     private boolean centricity = false;
     private final double TRIGGER_CONSTANT = 0.15;
     private final double SLOW_MODE_PERCENT = 0.4;
@@ -25,7 +24,7 @@ public class MainTeleOp extends BaseOpMode {
     }
 
     public void subLoop() {
-        //update stuff=================================================================================================
+ //       Update
 //        cycle = 1.0/(time-prevRead);
 //        prevRead = time;
 //        timingScheduler.run();
@@ -36,125 +35,77 @@ public class MainTeleOp extends BaseOpMode {
 
         //Subsystem control =========================================================================================
 
-        // intake controls ------------- not implemented
-        if (gamepadEx1.isDown(GamepadKeys.Button.LEFT_BUMPER)){
-//            bot.intake.reverseLeft();
-        }
-        else if (gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > TRIGGER_CONSTANT){
-//            bot.intake.runLeft();
-//            bot.outtake.openLeftFlap();
-        }
-        else {
-//            bot.intake.stopLeft();
-//            bot.outtake.closeLeftFlap();
-        }
+        if (gamepadEx1.isDown(GamepadKeys.Button.LEFT_BUMPER)){ }
 
-        if (gamepadEx1.isDown(GamepadKeys.Button.RIGHT_BUMPER)) {
-//            bot.intake.reverseRight();
-        }
-        else if (gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > TRIGGER_CONSTANT) {
-//            bot.intake.runRight();
-//            bot.outtake.openRightFlap();
-        }
-        else {
-//            bot.intake.stopRight();
-//            bot.outtake.closeRightFlap();
-        }
+        else if (gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > TRIGGER_CONSTANT){ }
+
+        else { }
+
+        if (gamepadEx1.isDown(GamepadKeys.Button.RIGHT_BUMPER)) { }
+
+        else if (gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > TRIGGER_CONSTANT) { }
+
+        else { }
 
 
-        // driver 2
+        // Driver 2
 
-        // toggling flaps to hold freight in bucket
-        if (gamepadEx2.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)){
-//            bot.outtake.toggleLeftFlap();
-        }
+        if (gamepadEx2.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)){ }
 
-        else if (gamepadEx2.wasJustPressed(Button.RIGHT_BUMPER)){
-//            bot.outtake.toggleRightFlap();
-        }
+        else if (gamepadEx2.wasJustPressed(Button.RIGHT_BUMPER)){ }
 
-        // all slides controls
-        if(gamepadEx2.wasJustPressed(Button.LEFT_STICK_BUTTON)) {
-//            bot.outtake.goToCapstone();
-        }
-        else if(gamepadEx2.wasJustPressed(Button.DPAD_RIGHT)) {
-//            bot.outtake.goToLowGoal();
-//            timingScheduler.defer(0.05, () -> { bot.outtake.flipBucket();
-//                timingScheduler.defer(0.5, () -> {
-//                    bot.outtake.unFlipBucket();
-//                    bot.outtake.fullyRetract();
-//                });
-//            });
-        }
-        else if(gamepadEx2.wasJustPressed(Button.DPAD_LEFT)) {
-//            bot.outtake.goToMidGoal();
-//            timingScheduler.defer(0.15, () -> { bot.outtake.flipBucket();
-//                timingScheduler.defer(0.5, () -> {
-//                    bot.outtake.unFlipBucket();
-//                    bot.outtake.fullyRetract();
-//                });
-//            });
-        }
-        else if(gamepadEx2.wasJustPressed(Button.DPAD_UP)) {
-//            bot.outtake.goToTopGoal();
-//            timingScheduler.defer(0.25, () -> { bot.outtake.flipBucket();
-//                timingScheduler.defer(0.5, () -> {
-//                    bot.outtake.unFlipBucket();
-//                    bot.outtake.fullyRetract();
-//                });
-//            });
-        }
-        else if(gamepadEx2.wasJustPressed(Button.DPAD_DOWN)) {
-//            timingScheduler.clearAll();
-//            bot.outtake.fullyRetract();
-        }
+        if(gamepadEx2.wasJustPressed(Button.LEFT_STICK_BUTTON)) { }
 
-        if (gamepadEx2.wasJustPressed(Button.Y)){
-//            timingScheduler.clearAll();
-        }
+        else if(gamepadEx2.wasJustPressed(Button.DPAD_RIGHT)) { }
+
+        else if(gamepadEx2.wasJustPressed(Button.DPAD_LEFT)) { }
+
+        else if(gamepadEx2.wasJustPressed(Button.DPAD_UP)) { }
+
+        else if(gamepadEx2.wasJustPressed(Button.DPAD_DOWN)) { }
+
+        if (gamepadEx2.wasJustPressed(Button.Y)){ }
 
     /*
     Controller 1
     A:      B:      X:      Y:
     DPAD
-    L: Unflip BucketD:     U: Flip Bucket R:
+    L: D: U: R:
     Joystick
-    L:Field centric movement
-    R:Set orientation / Rotation (Determine through practice)
-    Trigger L/R: left intake -- right intake
+    L: Field centric movement
+    R:Set orientation / rotation (determine through practice)
+    Trigger L/R:
     Bumper:
-    L:none/switch to previous path      R:none/switch to next path
+    L:     R:
     Other
-    Start:  Back:switch between automation and driving
+    Start:  Back: switch between automation and driving
+
     Controller 2
     A:      B:      X:      Y:
     DPAD
-    L:      D: Unflip Bucket    U: Flip Bucket     R:
+    L:      D:      U:      R:
     Joystick
     L:movement/reset field centric or progress automation
-    R:movement/switch robotfield centric or none
+    R:movement/switch robot/field centric or none
     Trigger L/R: slow driving
     Bumper
-    L: Open Left Flap, Close Right Flap      R: Open Right Flap, Close Left Flap
+    L:    R:
     Other
-    Start:  Back:switch between automation and driving
+    Start:  Back: switch between automation and driving
      */
 
         CommandScheduler.getInstance().run();
 
-//        telemetry.addData("Centricity", centricity);
-//        telemetry.addData("cycle", cycle);
-        telemetry.addData("x", bot.roadRunner.getPoseEstimate().getX());
-        telemetry.addData("y", bot.roadRunner.getPoseEstimate().getY());
-        telemetry.addData("heading", bot.roadRunner.getPoseEstimate().getHeading());
-        telemetry.addData("driver left stick", "left X" + gamepadEx1.getLeftX() + ": " + gamepadEx1.getLeftY());
+        telemetry.addData("X", bot.roadRunner.getPoseEstimate().getX());
+        telemetry.addData("Y", bot.roadRunner.getPoseEstimate().getY());
+        telemetry.addData("Heading", bot.roadRunner.getPoseEstimate().getHeading());
+        telemetry.addData("Driver Left Stick", "left X" + gamepadEx1.getLeftX() + ": " + gamepadEx1.getLeftY());
 
     }
 
     private void drive() {
         final double gyroTolerance = 0.05;
-        
-        // TODO: check whether algorithm works correctly
+
         double tempAngle0 = bot.imu0.getAngularOrientation().toAngleUnit(AngleUnit.DEGREES).firstAngle
                 - fieldCentricOffset0;
         double tempAngle1 = bot.imu1.getAngularOrientation().toAngleUnit(AngleUnit.DEGREES).firstAngle

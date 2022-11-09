@@ -12,11 +12,10 @@ import org.firstinspires.ftc.teamcode.drive.RRMecanumDrive;
 
 public class Bot {
     // in TeleOp and Autonomous we should be able to call "new Bot(this)"
-    // bot.intake.run(), bot.shooter.spinUp
+
     public static Bot instance;
 
     //TODO: Declare subsystems here
-    //example
 
 
     //required subsystems
@@ -24,8 +23,6 @@ public class Bot {
     public final RRMecanumDrive roadRunner;
     public final BNO055IMU imu0;
     public final BNO055IMU imu1;
-    //  public final Cosmetics cosmetics;
-//  public Pair<ExpansionHubEx, ExpansionHubEx> hubs = null;
     public OpMode opMode;
 
     /** Get the current Bot instance from somewhere other than an OpMode */
@@ -51,16 +48,9 @@ public class Bot {
     private Bot(OpMode opMode){
         this.opMode = opMode;
         enableAutoBulkRead();
-        try {
-//      this.hubs = Pair.create(opMode.hardwareMap.get(ExpansionHubEx.class, "Expansion Hub 1"), // TODO: check if revextensions2 works with sdk7.0 and control hubs
-//          opMode.hardwareMap.get(ExpansionHubEx.class, "Expansion Hub 2"));
-        } catch (Exception e) {
-            // Avoid catastrophic errors if RevExtensions don't behave as expected. Limited trust of stability
-            e.printStackTrace();
-        }
 
         //TODO: initialize subsystems
-        //example
+
         //this.templateSubsystem = new TemplateSubsystem(opMode);
 
         //required subsystems
