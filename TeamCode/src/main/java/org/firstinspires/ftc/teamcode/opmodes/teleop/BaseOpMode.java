@@ -3,9 +3,14 @@ package org.firstinspires.ftc.teamcode.opmodes.teleop;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys.Button;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys.Trigger;
+import com.arcrobotics.ftclib.geometry.Vector2d;
+import com.arcrobotics.ftclib.util.Direction;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.hardware.Bot;
+import org.firstinspires.ftc.teamcode.util.utilclasses.TimingScheduler;
+
+import java.util.function.Function;
 
 
 public abstract class BaseOpMode extends OpMode {
@@ -13,6 +18,7 @@ public abstract class BaseOpMode extends OpMode {
   protected Bot bot;
   protected double driveSpeed;
   protected GamepadEx gamepadEx1, gamepadEx2;
+  TimingScheduler timingScheduler;
 
   //button reader syntax
   // (g1 or g2)  (a, b, lt, lb, etc)
@@ -22,7 +28,10 @@ public abstract class BaseOpMode extends OpMode {
     bot = Bot.getInstance(this);
     gamepadEx2 = new GamepadEx(gamepad2);
     gamepadEx1 = new GamepadEx(gamepad1);
+    timingScheduler = new TimingScheduler(this);
     subInit();
+    telemetry.addData("Imu0 init?", bot.imu0!=null);
+    telemetry.addData("Imu1 init?", bot.imu1!=null);
     telemetry.addLine("Init done");
     telemetry.update();
   }
@@ -54,7 +63,7 @@ public abstract class BaseOpMode extends OpMode {
     return Math.max(in1, in2);
   }
 
-  /*
+
   Vector2d stickSignal(Direction side) {
 
     Function<GamepadEx, Vector2d> toCoords = pad ->
@@ -66,7 +75,7 @@ public abstract class BaseOpMode extends OpMode {
 
     return v1.magnitude() > 0.02 ? v1 : v2;
   }
-   */
+
 
   boolean justPressed(Button button) {
     return gamepadEx1.wasJustPressed(button) || gamepadEx2.wasJustPressed(button);

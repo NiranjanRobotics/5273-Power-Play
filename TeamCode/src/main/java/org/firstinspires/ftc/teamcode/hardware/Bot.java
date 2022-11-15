@@ -22,13 +22,15 @@ public class Bot {
     //required subsystems
     public final MecanumDrive drive;
     public final RRMecanumDrive roadRunner;
-    public final BNO055IMU imu0;
-    public final BNO055IMU imu1;
+    public  BNO055IMU imu0;
+    public  BNO055IMU imu1;
     //  public final Cosmetics cosmetics;
 //  public Pair<ExpansionHubEx, ExpansionHubEx> hubs = null;
     public OpMode opMode;
 
-    /** Get the current Bot instance from somewhere other than an OpMode */
+    /**
+     * Get the current Bot instance from somewhere other than an OpMode
+     */
     public static Bot getInstance() {
         if (instance == null) {
             throw new IllegalStateException("tried to getInstance of Bot when uninitialized");
@@ -41,14 +43,16 @@ public class Bot {
             return instance = new Bot(opMode);
         }
         instance.opMode = opMode;
+        instance.initializeImu(instance.imu0);
+        instance.initializeImu(instance.imu1);
         return instance;
     }
 
-    public void reset(){
+    public void reset() {
         //TODO: add reset code here
     }
 
-    private Bot(OpMode opMode){
+    private Bot(OpMode opMode) {
         this.opMode = opMode;
         enableAutoBulkRead();
         try {
@@ -70,16 +74,24 @@ public class Bot {
                 new MotorEx(opMode.hardwareMap, GlobalConfig.motorBL),
                 new MotorEx(opMode.hardwareMap, GlobalConfig.motorBR));
         this.roadRunner = new RRMecanumDrive(opMode.hardwareMap);
+        try {
+            this.imu0 = opMode.hardwareMap.get(BNO055IMU.class, "imu0");
+            this.imu1 = opMode.hardwareMap.get(BNO055IMU.class, "imu1");
+            this.initializeImu(imu0);
+            this.initializeImu(imu1);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
 
-        imu0 = roadRunner.imu;
-        imu1 = (roadRunner.imu2 != null) ? roadRunner.imu2 : null;
+
     }
 
-//  private void initializeImu() {
-//    final Parameters params = new Parameters();
-//    params.angleUnit = AngleUnit.RADIANS;
-//    imu.initialize(params);
-//  }
+    private void initializeImu(BNO055IMU imu) {
+        final BNO055IMU.Parameters params = new BNO055IMU.Parameters();
+        params.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+        imu.initialize(params);
+    }
 
     private void enableAutoBulkRead() {
         for (LynxModule mod : opMode.hardwareMap.getAll(LynxModule.class)) {
