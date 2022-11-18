@@ -22,8 +22,8 @@ public class Bot {
     //required subsystems
     public final MecanumDrive drive;
     public final RRMecanumDrive roadRunner;
-    public  BNO055IMU imu0;
-    public  BNO055IMU imu1;
+    public final BNO055IMU imu0;
+    public final BNO055IMU imu1;
     //  public final Cosmetics cosmetics;
 //  public Pair<ExpansionHubEx, ExpansionHubEx> hubs = null;
     public OpMode opMode;
@@ -74,22 +74,17 @@ public class Bot {
                 new MotorEx(opMode.hardwareMap, GlobalConfig.motorBL),
                 new MotorEx(opMode.hardwareMap, GlobalConfig.motorBR));
         this.roadRunner = new RRMecanumDrive(opMode.hardwareMap);
-        try {
-            this.imu0 = opMode.hardwareMap.get(BNO055IMU.class, "imu0");
-            this.imu1 = opMode.hardwareMap.get(BNO055IMU.class, "imu1");
-            this.initializeImu(imu0);
-            this.initializeImu(imu1);
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-
-
+        this.imu0 = opMode.hardwareMap.get(BNO055IMU.class, "imu0");
+        this.imu1 = opMode.hardwareMap.get(BNO055IMU.class, "imu1");
+        this.initializeImu(imu0);
+        this.initializeImu(imu1);
     }
 
     private void initializeImu(BNO055IMU imu) {
         final BNO055IMU.Parameters params = new BNO055IMU.Parameters();
-        params.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+        params.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        params.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        params.loggingEnabled = false;
         imu.initialize(params);
     }
 

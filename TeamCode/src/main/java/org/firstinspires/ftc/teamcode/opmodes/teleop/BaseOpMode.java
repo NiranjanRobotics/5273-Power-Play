@@ -30,8 +30,6 @@ public abstract class BaseOpMode extends OpMode {
     gamepadEx1 = new GamepadEx(gamepad1);
     timingScheduler = new TimingScheduler(this);
     subInit();
-    telemetry.addData("Imu0 init?", bot.imu0!=null);
-    telemetry.addData("Imu1 init?", bot.imu1!=null);
     telemetry.addLine("Init done");
     telemetry.update();
   }
