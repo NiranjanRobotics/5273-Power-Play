@@ -24,16 +24,17 @@ public class MainTeleOp extends BaseOpMode {
     }
 
     public void subLoop() {
- //       Update
-//        cycle = 1.0/(time-prevRead);
-//        prevRead = time;
-//        timingScheduler.run();
 
-        //Movement =================================================================================================
+//      Update
+//      cycle = 1.0/(time-prevRead);
+//      prevRead = time;
+//      timingScheduler.run();
+
+//      Movement =================================================================================================
         drive();
 
 
-        //Subsystem control =========================================================================================
+        //Subsystem Control =========================================================================================
 
         if (gamepadEx1.isDown(GamepadKeys.Button.LEFT_BUMPER)){ }
 
@@ -66,33 +67,33 @@ public class MainTeleOp extends BaseOpMode {
 
         if (gamepadEx2.wasJustPressed(Button.Y)){ }
 
-    /*
-    Controller 1
-    A:      B:      X:      Y:
-    DPAD
-    L: D: U: R:
-    Joystick
-    L: Field centric movement
-    R:Set orientation / rotation (determine through practice)
-    Trigger L/R:
-    Bumper:
-    L:     R:
-    Other
-    Start:  Back: switch between automation and driving
+        /*
+        Controller 1
+        A:      B:      X:      Y:
+        DPAD
+        L: D: U: R:
+        Joystick
+        L: Field centric movement
+        R:Set orientation / rotation (determine through practice)
+        Trigger L/R:
+        Bumper:
+        L:     R:
+        Other
+        Start:  Back: switch between automation and driving
 
-    Controller 2
-    A:      B:      X:      Y:
-    DPAD
-    L:      D:      U:      R:
-    Joystick
-    L:movement/reset field centric or progress automation
-    R:movement/switch robot/field centric or none
-    Trigger L/R: slow driving
-    Bumper
-    L:    R:
-    Other
-    Start:  Back: switch between automation and driving
-     */
+        Controller 2
+        A:      B:      X:      Y:
+        DPAD
+        L:      D:      U:      R:
+        Joystick
+        L:movement/reset field centric or progress automation
+        R:movement/switch robot/field centric or none
+        Trigger L/R: slow driving
+        Bumper
+        L:    R:
+        Other
+        Start:  Back: switch between automation and driving
+         */
 
         CommandScheduler.getInstance().run();
 
@@ -104,15 +105,20 @@ public class MainTeleOp extends BaseOpMode {
     }
 
     private void drive() {
+
         final double gyroTolerance = 0.05;
 
         double tempAngle0 = bot.imu0.getAngularOrientation().toAngleUnit(AngleUnit.DEGREES).firstAngle
                 - fieldCentricOffset0;
-        double tempAngle1 = bot.imu0.getAngularOrientation().toAngleUnit(AngleUnit.DEGREES).firstAngle
+        double tempAngle1 = bot.imu1.getAngularOrientation().toAngleUnit(AngleUnit.DEGREES).firstAngle
                 - fieldCentricOffset1;
+
         // set absolute value of angle always less than or equal to 180
+
         final double gyroAngle0 = (tempAngle0 > 180) ? tempAngle0 - 360 : tempAngle0;
+
         // if imu is null, then use other imu
+
         final double gyroAngle1 = (bot.imu1 != null) ?
                 ((tempAngle1 > 180) ? tempAngle1 - 360 : tempAngle1)
                 : gyroAngle0;
