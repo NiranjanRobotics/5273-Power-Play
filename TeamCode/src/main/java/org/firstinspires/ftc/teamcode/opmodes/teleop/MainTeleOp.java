@@ -108,7 +108,7 @@ public class MainTeleOp extends BaseOpMode {
 
         double tempAngle0 = bot.imu0.getAngularOrientation().toAngleUnit(AngleUnit.DEGREES).firstAngle
                 - fieldCentricOffset0;
-        double tempAngle1 = bot.imu1.getAngularOrientation().toAngleUnit(AngleUnit.DEGREES).firstAngle
+        double tempAngle1 = bot.imu0.getAngularOrientation().toAngleUnit(AngleUnit.DEGREES).firstAngle
                 - fieldCentricOffset1;
         // set absolute value of angle always less than or equal to 180
         final double gyroAngle0 = (tempAngle0 > 180) ? tempAngle0 - 360 : tempAngle0;
@@ -137,11 +137,15 @@ public class MainTeleOp extends BaseOpMode {
                         driveVector.getY() * driveSpeed,
                         driveVector.getX() * -driveSpeed,
                         turnVector.getX() * driveSpeed,
-                        (  Math.abs(avgGyroAngle - gyroAngle0) < gyroTolerance
+                        ( Math.abs(avgGyroAngle - gyroAngle0) < gyroTolerance
                                 || Math.abs(avgGyroAngle - gyroAngle1) < gyroTolerance) ?
                                 Math.abs(gyroAngle0 - avgGyroAngle) <
                                         Math.abs(gyroAngle1 - avgGyroAngle) ?
                                         gyroAngle0 : gyroAngle1 : avgGyroAngle
+
+                        //field centric W
+
+
                         // Epic Java Syntax here
                         /*
                          * In theory, this check ensures that when the avgGyroAngle is VERY off
