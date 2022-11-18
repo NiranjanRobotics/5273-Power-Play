@@ -55,13 +55,13 @@ public class Bot {
     private Bot(OpMode opMode) {
         this.opMode = opMode;
         enableAutoBulkRead();
-        try {
+//        try {
 //      this.hubs = Pair.create(opMode.hardwareMap.get(ExpansionHubEx.class, "Expansion Hub 1"), // TODO: check if revextensions2 works with sdk7.0 and control hubs
 //          opMode.hardwareMap.get(ExpansionHubEx.class, "Expansion Hub 2"));
-        } catch (Exception e) {
-            // Avoid catastrophic errors if RevExtensions don't behave as expected. Limited trust of stability
-            e.printStackTrace();
-        }
+//        } catch (Exception e) {
+//            // Avoid catastrophic errors if RevExtensions don't behave as expected. Limited trust of stability
+//            e.printStackTrace();
+//        }
 
         //TODO: initialize subsystems
         //example
