@@ -19,21 +19,14 @@
  * SOFTWARE.
  */
 
-<<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/opmodes/autonomous/helpers/AprilTagAutonomousInitDetectionExample.java
-package org.firstinspires.ftc.teamcode.opmodes.autonomous.helpers;
-========
+
 package org.firstinspires.ftc.teamcode.opmodes.autonomous.pipeline;
->>>>>>>> 3b14f03db4c3b48c32b936701c0b5498095e0eff:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/opmodes/autonomous/pipeline/AprilTagAutonomousInitDetection.java
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-<<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/opmodes/autonomous/helpers/AprilTagAutonomousInitDetectionExample.java
-import org.firstinspires.ftc.teamcode.opmodes.autonomous.helpers.AprilTagDetectionPipeline;
-========
 import org.firstinspires.ftc.teamcode.opmodes.autonomous.pipeline.AprilTagDetectionPipeline;
->>>>>>>> 3b14f03db4c3b48c32b936701c0b5498095e0eff:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/opmodes/autonomous/pipeline/AprilTagAutonomousInitDetection.java
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
