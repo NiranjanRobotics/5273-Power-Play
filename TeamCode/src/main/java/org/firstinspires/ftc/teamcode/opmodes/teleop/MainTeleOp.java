@@ -49,23 +49,67 @@ public class MainTeleOp extends BaseOpMode {
         else { }
 
 
+        if (gamepadEx1.wasJustPressed(Button.RIGHT_STICK_BUTTON)) { }
+
+        if (gamepadEx1.wasJustPressed(Button.LEFT_STICK_BUTTON)) { }
+
+
+        if(gamepadEx1.wasJustPressed(Button.DPAD_RIGHT)) { }
+
+        else if(gamepadEx1.wasJustPressed(Button.DPAD_LEFT)) { }
+
+        else if(gamepadEx1.wasJustPressed(Button.DPAD_UP)) { }
+
+        else if(gamepadEx1.wasJustPressed(Button.DPAD_DOWN)) { }
+
+
+        if (gamepadEx1.wasJustPressed(Button.A)){ }
+
+        if (gamepadEx1.wasJustPressed(Button.B)) { }
+
+        if (gamepadEx1.wasJustPressed(Button.X)) { }
+
+        if (gamepadEx1.wasJustPressed(Button.Y)) { }
+
+
         // Driver 2
 
-        if (gamepadEx2.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)){ }
 
-        else if (gamepadEx2.wasJustPressed(Button.RIGHT_BUMPER)){ }
 
-        if(gamepadEx2.wasJustPressed(Button.LEFT_STICK_BUTTON)) { }
+        if (gamepadEx2.isDown(GamepadKeys.Button.LEFT_BUMPER)){ }
 
-        else if(gamepadEx2.wasJustPressed(Button.DPAD_RIGHT)) { }
+        else if (gamepadEx2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > TRIGGER_CONSTANT){ }
+
+        else { }
+
+
+        if (gamepadEx2.isDown(GamepadKeys.Button.RIGHT_BUMPER)) { }
+
+        else if (gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > TRIGGER_CONSTANT) { }
+
+        else { }
+
+
+        if(gamepadEx2.wasJustPressed(Button.DPAD_RIGHT)) { }
 
         else if(gamepadEx2.wasJustPressed(Button.DPAD_LEFT)) { }
+
+
 
         else if(gamepadEx2.wasJustPressed(Button.DPAD_UP)) { }
 
         else if(gamepadEx2.wasJustPressed(Button.DPAD_DOWN)) { }
+        
 
-        if (gamepadEx2.wasJustPressed(Button.Y)){ }
+
+        if (gamepadEx2.wasJustPressed(Button.A)){ }
+
+        if (gamepadEx2.wasJustPressed(Button.B)) { }
+
+        if (gamepadEx2.wasJustPressed(Button.X)) { }
+
+        if (gamepadEx2.wasJustPressed(Button.Y)) { }
+
 
         /*
         Controller 1
