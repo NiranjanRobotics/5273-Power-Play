@@ -150,7 +150,7 @@ public class MainTeleOp extends BaseOpMode {
 
     private void drive() {
 
-        final double gyroTolerance = 0.05;
+        final double gyroTolerance = 10;
 
         double tempAngle0 = bot.imu0.getAngularOrientation().toAngleUnit(AngleUnit.DEGREES).firstAngle
                 - fieldCentricOffset0;
@@ -159,11 +159,11 @@ public class MainTeleOp extends BaseOpMode {
 
         // set absolute value of angle always less than or equal to 180
 
-        final double gyroAngle0 = (180-tempAngle0 > 180) ? 180-tempAngle0  : tempAngle0-180;
+        final double gyroAngle0 = ((tempAngle0+135)%360)-180; // accounts for rotation of extension hub and center-lifts angle to -180->180
 
         // if imu is null, then use other imu
 
-        final double gyroAngle1 = (bot.imu1 != null) ? (180-tempAngle1 > 180) ? 180-tempAngle1 : tempAngle1-180 :gyroAngle0;
+        final double gyroAngle1 = (bot.imu1 != null) ? ((tempAngle1-135)%360)-180 :gyroAngle0;
         final double avgGyroAngle = ((gyroAngle0 + gyroAngle1)/2);
         telemetry.addData("avgGyroAngle" ,avgGyroAngle);
 
@@ -171,7 +171,6 @@ public class MainTeleOp extends BaseOpMode {
                 turnVector = new Vector2d(
                         gamepadEx1.getRightX() * Math.abs(gamepadEx1.getRightX()),
                         0);
-        telemetry.addData("turnVector x",  turnVector.getX());
         if (bot.roadRunner.mode == RRMecanumDrive.Mode.IDLE) {
 
             boolean dpadPressed = (gamepadEx1.getButton(GamepadKeys.Button.DPAD_DOWN) || gamepadEx1.getButton(GamepadKeys.Button.DPAD_UP)
@@ -184,14 +183,10 @@ public class MainTeleOp extends BaseOpMode {
 
             if (centricity) {//epic java syntax
                 bot.drive.driveFieldCentric(
-                        driveVector.getY() *  driveSpeed,
-                        driveVector.getX() * -driveSpeed,
+                        driveVector.getX() *  driveSpeed,
+                        driveVector.getY() * driveSpeed,
                         turnVector.getX() * driveSpeed,
-                        ( Math.abs(avgGyroAngle - gyroAngle0) < gyroTolerance
-                                || Math.abs(avgGyroAngle - gyroAngle1) < gyroTolerance) ?
-                                Math.abs(gyroAngle0 - avgGyroAngle) <
-                                        Math.abs(gyroAngle1 - avgGyroAngle) ?
-                                        gyroAngle0 : gyroAngle1 : avgGyroAngle
+                         Math.abs(gyroAngle1 - gyroAngle0) < gyroTolerance ? avgGyroAngle : gyroAngle0
 
                         //field centric W
 
@@ -199,7 +194,7 @@ public class MainTeleOp extends BaseOpMode {
                         // Epic Java Syntax here
                         /*
                          * In theory, this check ensures that when the avgGyroAngle is VERY off
-                         * due to one IMU giving ~0.01, and the second giving ~1.99 which SHOULD be considered an angle of 2 or 0
+                         * due to one IMU giving  near -180, and the second giving near 180 which SHOULD be considered an angle of 0 but its actually in the opposite direction
                          * This problem was encountered while first testing the dual IMU dependant field centric drive
                          * the robot would run two motors on the corners of the robot in opposite directions, causing negligible movement
                          * Because I believe the rarer incorrect averages, these ternary statements, should correct this.
