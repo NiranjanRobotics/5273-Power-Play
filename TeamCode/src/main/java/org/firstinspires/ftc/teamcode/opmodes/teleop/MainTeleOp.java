@@ -115,19 +115,19 @@ public class MainTeleOp extends BaseOpMode {
 
         // set absolute value of angle always less than or equal to 180
 
-        final double gyroAngle0 = (tempAngle0 > 180) ? tempAngle0 - 360 : tempAngle0;
+        final double gyroAngle0 = (180-tempAngle0 > 180) ? 180-tempAngle0  : tempAngle0-180;
 
         // if imu is null, then use other imu
 
-        final double gyroAngle1 = (bot.imu1 != null) ?
-                ((tempAngle1 > 180) ? tempAngle1 - 360 : tempAngle1)
-                : gyroAngle0;
+        final double gyroAngle1 = (bot.imu1 != null) ? (180-tempAngle1 > 180) ? 180-tempAngle1 : tempAngle1-180 :gyroAngle0;
         final double avgGyroAngle = ((gyroAngle0 + gyroAngle1)/2);
+        telemetry.addData("avgGyroAngle" ,avgGyroAngle);
 
         Vector2d driveVector = new Vector2d(gamepadEx1.getLeftX(), gamepadEx1.getLeftY()),
                 turnVector = new Vector2d(
                         gamepadEx1.getRightX() * Math.abs(gamepadEx1.getRightX()),
                         0);
+        telemetry.addData("turnVector x",  turnVector.getX());
         if (bot.roadRunner.mode == RRMecanumDrive.Mode.IDLE) {
 
             boolean dpadPressed = (gamepadEx1.getButton(GamepadKeys.Button.DPAD_DOWN) || gamepadEx1.getButton(GamepadKeys.Button.DPAD_UP)
@@ -140,7 +140,7 @@ public class MainTeleOp extends BaseOpMode {
 
             if (centricity) {//epic java syntax
                 bot.drive.driveFieldCentric(
-                        driveVector.getY() * driveSpeed,
+                        driveVector.getY() *  driveSpeed,
                         driveVector.getX() * -driveSpeed,
                         turnVector.getX() * driveSpeed,
                         ( Math.abs(avgGyroAngle - gyroAngle0) < gyroTolerance
