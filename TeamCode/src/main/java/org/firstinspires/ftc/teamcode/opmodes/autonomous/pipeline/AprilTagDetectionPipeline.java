@@ -19,7 +19,11 @@
  * SOFTWARE.
  */
 
+<<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/opmodes/autonomous/helpers/AprilTagDetectionPipeline.java
 package org.firstinspires.ftc.teamcode.opmodes.autonomous.helpers;
+========
+package org.firstinspires.ftc.teamcode.opmodes.autonomous.pipeline;
+>>>>>>>> 3b14f03db4c3b48c32b936701c0b5498095e0eff:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/opmodes/autonomous/pipeline/AprilTagDetectionPipeline.java
 
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.CvType;
@@ -37,7 +41,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
 
-class AprilTagDetectionPipeline extends OpenCvPipeline
+public class AprilTagDetectionPipeline extends OpenCvPipeline
 {
     private long nativeApriltagPtr;
     private Mat grey = new Mat();

@@ -22,13 +22,16 @@ public class Intake extends SubsystemBase {
     }
 
     public void run() {
-        rightMotor.set(runPower);
-        leftMotor.set(runPower);
+        runAtPower(runPower);
+    }
+
+    public void runAtPower(double power) {
+        rightMotor.set(power);
+        leftMotor.set(power);
     }
 
     public void stop() {
-        rightMotor.set(stopPower);
-        leftMotor.set(stopPower);
+        runAtPower(stopPower);
     }
 
 }
