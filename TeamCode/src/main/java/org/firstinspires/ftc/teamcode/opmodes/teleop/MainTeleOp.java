@@ -33,7 +33,6 @@ public class MainTeleOp extends BaseOpMode {
 //      Movement =================================================================================================
         drive();
 
-
         //Subsystem Control =========================================================================================
 
         if (gamepadEx1.isDown(GamepadKeys.Button.LEFT_BUMPER)){ }
@@ -88,21 +87,10 @@ public class MainTeleOp extends BaseOpMode {
         else if (gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > TRIGGER_CONSTANT) { }
 
         else { }
-
-
-        if(gamepadEx2.wasJustPressed(Button.DPAD_RIGHT)) { }
-
-        else if(gamepadEx2.wasJustPressed(Button.DPAD_LEFT)) { }
-
-
-
-        else if(gamepadEx2.wasJustPressed(Button.DPAD_UP)) { }
-
-        else if(gamepadEx2.wasJustPressed(Button.DPAD_DOWN)) { }
         
 
 
-        if (gamepadEx2.wasJustPressed(Button.A)){ }
+        if (gamepadEx2.wasJustPressed(Button.A)) { }
 
         if (gamepadEx2.wasJustPressed(Button.B)) { }
 
@@ -113,28 +101,21 @@ public class MainTeleOp extends BaseOpMode {
 
         /*
         Controller 1
-        A:      B:      X:      Y:
-        DPAD
-        L: D: U: R:
+        Buttons
+            A: intake in
+            B: hold to release claw, release to reset outtake to base position
+            X: intake out
+            Y: raise slides to set positions
+        DPAD (unused)
         Joystick
-        L: Field centric movement
-        R:Set orientation / rotation (determine through practice)
-        Trigger L/R:
+            L: movement (field centric or robot centric)
+            R: Set orientation / rotation (determine through practice)
+        Trigger
+            L: reset field centric offset
+            R: switch centricity
         Bumper:
-        L:     R:
-        Other
-        Start:  Back: switch between automation and driving
-
-        Controller 2
-        A:      B:      X:      Y:
-        DPAD
-        L:      D:      U:      R:
-        Joystick
-        L:movement/reset field centric or progress automation
-        R:movement/switch robot/field centric or none
-        Trigger L/R: slow driving
-        Bumper
-        L:    R:
+            L: decrement slide height selection
+            R: increment slide height selection
         Other
         Start:  Back: switch between automation and driving
          */
@@ -159,18 +140,24 @@ public class MainTeleOp extends BaseOpMode {
 
         // set absolute value of angle always less than or equal to 180
 
-        final double gyroAngle0 = ((tempAngle0+135)%360)-180; // accounts for rotation of extension hub and center-lifts angle to -180->180
+        final double gyroAngle0 = tempAngle0; // accounts for rotation of extension hub and center-lifts angle to -180->180
 
         // if imu is null, then use other imu
 
-        final double gyroAngle1 = (bot.imu1 != null) ? ((tempAngle1-135)%360)-180 :gyroAngle0;
+        final double gyroAngle1 = (bot.imu1 != null) ? tempAngle1 :gyroAngle0;
         final double avgGyroAngle = ((gyroAngle0 + gyroAngle1)/2);
         telemetry.addData("avgGyroAngle" ,avgGyroAngle);
 
-        Vector2d driveVector = new Vector2d(gamepadEx1.getLeftX(), gamepadEx1.getLeftY()),
+        telemetry.addData("tempAngle0", tempAngle0);
+        telemetry.addData("tempAngle1", tempAngle1);
+        telemetry.addData("gyroAngle0", gyroAngle0);
+        telemetry.addData("gyroAngle1", gyroAngle1);
+        telemetry.addData("fieldCentricOffset0", fieldCentricOffset0);
+        telemetry.addData("fieldCentricOffset1", fieldCentricOffset1);
+
+        Vector2d driveVector = new Vector2d(gamepadEx1.getLeftY(), gamepadEx1.getLeftX()),
                 turnVector = new Vector2d(
-                        gamepadEx1.getRightX() * Math.abs(gamepadEx1.getRightX()),
-                        0);
+                        gamepadEx1.getRightX() , 0);
         if (bot.roadRunner.mode == RRMecanumDrive.Mode.IDLE) {
 
             boolean dpadPressed = (gamepadEx1.getButton(GamepadKeys.Button.DPAD_DOWN) || gamepadEx1.getButton(GamepadKeys.Button.DPAD_UP)
@@ -183,7 +170,7 @@ public class MainTeleOp extends BaseOpMode {
 
             if (centricity) {//epic java syntax
                 bot.drive.driveFieldCentric(
-                        driveVector.getX() *  driveSpeed,
+                        driveVector.getX() * driveSpeed,
                         driveVector.getY() * driveSpeed,
                         turnVector.getX() * driveSpeed,
                          Math.abs(gyroAngle1 - gyroAngle0) < gyroTolerance ? avgGyroAngle : gyroAngle0
@@ -213,7 +200,7 @@ public class MainTeleOp extends BaseOpMode {
             else {
                 bot.drive.driveRobotCentric(
                         driveVector.getY() * driveSpeed,
-                        driveVector.getX() * -driveSpeed,
+                        driveVector.getX() * driveSpeed,
                         turnVector.getX() * driveSpeed
                 );
             }

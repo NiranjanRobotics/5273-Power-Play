@@ -1,11 +1,17 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
+import android.provider.Browser;
+import android.provider.Settings;
+
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.lynx.LynxModule.BulkCachingMode;
+import com.qualcomm.hardware.motors.GoBILDA5202Series;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.GlobalConfig;
 import org.firstinspires.ftc.teamcode.drive.RRMecanumDrive;
@@ -57,12 +63,27 @@ public class Bot {
 
         //this.templateSubsystem = new TemplateSubsystem(opMode);
 
+        MotorEx motorFL = new MotorEx(opMode.hardwareMap, GlobalConfig.motorFL, Motor.GoBILDA.RPM_435);
+        motorFL.setInverted(true);
+        motorFL.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        MotorEx motorFR = new MotorEx(opMode.hardwareMap, GlobalConfig.motorFR, Motor.GoBILDA.RPM_435);
+        motorFR.setInverted(false);
+        motorFR.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        MotorEx motorBL = new MotorEx(opMode.hardwareMap, GlobalConfig.motorBL, Motor.GoBILDA.RPM_435);
+        motorBL.setInverted(true);
+        motorBL.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        MotorEx motorBR = new MotorEx(opMode.hardwareMap, GlobalConfig.motorBR, Motor.GoBILDA.RPM_435);
+        motorBR.setInverted(false);
+        motorBR.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+
         //required subsystems
         this.drive = new MecanumDrive(false,
-                new MotorEx(opMode.hardwareMap, GlobalConfig.motorFL),
-                new MotorEx(opMode.hardwareMap, GlobalConfig.motorFR),
-                new MotorEx(opMode.hardwareMap, GlobalConfig.motorBL),
-                new MotorEx(opMode.hardwareMap, GlobalConfig.motorBR));
+                motorFL,
+                motorFR,
+                motorBL,
+                motorBR);
+
+
         this.roadRunner = new RRMecanumDrive(opMode.hardwareMap);
         this.imu0 = opMode.hardwareMap.get(BNO055IMU.class, "imu0");
         this.imu1 = opMode.hardwareMap.get(BNO055IMU.class, "imu1");

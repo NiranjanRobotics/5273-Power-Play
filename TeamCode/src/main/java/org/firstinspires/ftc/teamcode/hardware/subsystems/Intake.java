@@ -14,11 +14,11 @@ public class Intake extends SubsystemBase {
     private double stopPower;
 
     public Intake(HardwareMap hardwareMap) {
-        rightMotor = new MotorEx(hardwareMap, "rightIntake", Motor.GoBILDA.RPM_312);
-        leftMotor = new MotorEx(hardwareMap, "leftIntake", Motor.GoBILDA.RPM_312);
+        leftMotor = new MotorEx(hardwareMap, "leftIntakeWheel", Motor.GoBILDA.RPM_312);
+        rightMotor = new MotorEx(hardwareMap, "rightIntakeWheel", Motor.GoBILDA.RPM_312);
 
-        rightMotor.setRunMode(Motor.RunMode.RawPower);
         leftMotor.setRunMode(Motor.RunMode.RawPower);
+        rightMotor.setRunMode(Motor.RunMode.RawPower);
     }
 
     public void run() {
@@ -26,8 +26,8 @@ public class Intake extends SubsystemBase {
     }
 
     public void runAtPower(double power) {
-        rightMotor.set(power);
         leftMotor.set(power);
+        rightMotor.set(power);
     }
 
     public void stop() {

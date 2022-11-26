@@ -23,18 +23,25 @@ public class Outtake extends SubsystemBase {
     private static final double STOPPED_SPEED = 0.03;
 
     private Servo clawServo;
-    private MotorEx slideMotor;
+    private MotorEx leftSlideMotor;
+    private MotorEx rightSlideMotor;
 
     public Outtake(HardwareMap hardwareMap) {
         clawServo = hardwareMap.get(Servo.class, "clawServo");
 
-        slideMotor = new MotorEx(hardwareMap, "slideMotor", Motor.GoBILDA.RPM_435);
+        leftSlideMotor = new MotorEx(hardwareMap, "leftSlideMotor", Motor.GoBILDA.RPM_312);
+        rightSlideMotor = new MotorEx(hardwareMap, "rightSlideMotor", Motor.GoBILDA.RPM_312);
 
         clawServo.setDirection(Servo.Direction.FORWARD);
 
-        slideMotor.setRunMode(Motor.RunMode.PositionControl);
-        slideMotor.setPositionTolerance(TOLERANCE);
-        slideMotor.setPositionCoefficient(kP);
+        initializeSlideMotor(leftSlideMotor);
+        initializeSlideMotor(rightSlideMotor);
+    }
+
+    private void initializeSlideMotor(MotorEx motor) {
+        motor.setRunMode(Motor.RunMode.PositionControl);
+        motor.setPositionTolerance(TOLERANCE);
+        motor.setPositionCoefficient(kP);
     }
 
     public void openClaw() {
@@ -46,16 +53,21 @@ public class Outtake extends SubsystemBase {
     }
 
     public void extend() {
-        slideMotor.setTargetPosition(EXTENDED_POSITION);
+        leftSlideMotor.setTargetPosition(EXTENDED_POSITION);
+        rightSlideMotor.setTargetPosition(EXTENDED_POSITION);
     }
 
     public void retract() {
-        slideMotor.setTargetPosition(RETRACTED_POSITION);
+        leftSlideMotor.setTargetPosition(RETRACTED_POSITION);
+        rightSlideMotor.setTargetPosition(RETRACTED_POSITION);
     }
 
     public void periodic() {
-        if (slideMotor.getCurrentPosition() > MAXIMUM_POSITION) {
-            slideMotor.set(STOPPED_SPEED);
+        if (leftSlideMotor.getCurrentPosition() > MAXIMUM_POSITION) {
+            leftSlideMotor.set(STOPPED_SPEED);
+        }
+        if (rightSlideMotor.getCurrentPosition() > MAXIMUM_POSITION) {
+            rightSlideMotor.set(STOPPED_SPEED);
         }
     }
 

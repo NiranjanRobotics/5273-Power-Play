@@ -130,7 +130,8 @@ public class RRMecanumDrive extends MecanumDrive {
 
     poseHistory = new LinkedList<>();
 
-    if (!VIRTUAL) LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap);
+    // TODO: commented out for now but need to figure out how to fix this problem
+//    if (!VIRTUAL) LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap);
 
     batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
 
