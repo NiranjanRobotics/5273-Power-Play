@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Intake extends SubsystemBase {
 
-    private MotorEx rightMotor;
-    private MotorEx leftMotor;
+    private final MotorEx rightMotor;
+    private final MotorEx leftMotor;
 
     private final double runPower = 0.85;
     private double stopPower;
@@ -25,7 +25,11 @@ public class Intake extends SubsystemBase {
         runAtPower(runPower);
     }
 
-    public void runAtPower(double power) {
+    public void runReverse() {
+        runAtPower(-runPower);
+    }
+
+    private void runAtPower(double power) {
         leftMotor.set(power);
         rightMotor.set(power);
     }
@@ -33,5 +37,4 @@ public class Intake extends SubsystemBase {
     public void stop() {
         runAtPower(stopPower);
     }
-
 }
