@@ -30,12 +30,18 @@ public class Outtake extends SubsystemBase {
     private static int targetHeight = 34;
 
 
+
     private static final double kP = 0.05;
     private static final double TOLERANCE = 31;
 
     private static final double SLIDE_SPEED = 0.3;
     private static final double HOLDING_SPEED = 0.1;
     private static final double STOPPED_SPEED = 0.03;
+    private static final double RETRACT_SPEED = 0.3;
+
+
+    private static final double RETRACT_POSITION_COEFF=0.05;
+
 
     private final Servo clawServo;
     private final MotorEx leftSlideMotor;
@@ -53,10 +59,12 @@ public class Outtake extends SubsystemBase {
         initializeSlideMotor(rightSlideMotor);
     }
 
+
     private void initializeSlideMotor(MotorEx motor) {
         motor.setRunMode(Motor.RunMode.PositionControl);
         motor.setPositionTolerance(TOLERANCE);
         motor.setPositionCoefficient(kP);
+        motor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
     }
 
     public void openClaw() {
@@ -66,6 +74,7 @@ public class Outtake extends SubsystemBase {
     public void closeClaw() {
         clawServo.setPosition(CLOSED_POSITION);
     }
+
 
     public void incrementLevel() {
         switch(currentLevel) {
@@ -79,6 +88,7 @@ public class Outtake extends SubsystemBase {
             case HIGH:
                 currentLevel = Level.HIGH;
                 break;
+
         }
     }
 
@@ -95,6 +105,19 @@ public class Outtake extends SubsystemBase {
                 currentLevel = Level.MEDIUM;
                 break;
         }
+    }
+    public double getStopSpeed(){
+        switch(currentLevel){
+            case GROUND:
+                return 0.0; //
+            case LOW:
+                return 0.15; //
+            case MEDIUM:
+                return 0.15; //
+            case HIGH:
+                return 0.15; //
+        }
+
     }
 
     private void setTargetHeight() {
@@ -125,13 +148,39 @@ public class Outtake extends SubsystemBase {
         rightSlideMotor.setTargetPosition(RETRACTED_POSITION);
     }
 
+    @Override
     public void periodic() {
-        if (leftSlideMotor.getCurrentPosition() > MAXIMUM_POSITION) {
-            leftSlideMotor.set(STOPPED_SPEED);
+        if (!(leftSlideMotor.atTargetPosition() && rightSlideMotor.atTargetPosition())) {
+            if (Math.abs(leftSlideMotor.getCurrentPosition()) < Math.abs(leftSlideMotor.getCurrentPosition()) || Math.abs(rightSlideMotor.getCurrentPosition()) < Math.abs(rightSlideMotor.getCurrentPosition())) {
+                leftSlideMotor.setPositionCoefficient(RETRACT_POSITION_COEFF);
+                rightSlideMotor.setPositionCoefficient(RETRACT_POSITION_COEFF);
+                leftSlideMotor.set(RETRACT_SPEED);
+                rightSlideMotor.set(RETRACT_SPEED);
+            } else {
+                leftSlideMotor.set(SLIDE_SPEED);
+                rightSlideMotor.set(SLIDE_SPEED);
+                switch (currentLevel) {
+                    case HIGH:
+                        leftSlideMotor.setPositionCoefficient(0.015);
+                        rightSlideMotor.setPositionCoefficient(0.015);
+                        break;
+                    case MEDIUM:
+                        leftSlideMotor.setPositionCoefficient(0.017);
+                        rightSlideMotor.setPositionCoefficient(0.017);
+                        break;
+                    case LOW:
+                        leftSlideMotor.setPositionCoefficient(0.15);
+                        rightSlideMotor.setPositionCoefficient(0.15);
+                        break;
+                    case GROUND:
+                        leftSlideMotor.setPositionCoefficient(0.35);
+                        rightSlideMotor.setPositionCoefficient(0.35);
+                }
+            }
         }
-        if (rightSlideMotor.getCurrentPosition() > MAXIMUM_POSITION) {
-            rightSlideMotor.set(STOPPED_SPEED);
+        else{
+            leftSlideMotor.set(getStopSpeed());
+            rightSlideMotor.set(getStopSpeed());
         }
     }
-
 }

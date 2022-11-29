@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.drive.RRMecanumDrive;
 @TeleOp(name = "Main TeleOp", group = "Competition")
 public class MainTeleOp extends BaseOpMode {
 
-    private boolean centricity = false;
+    private boolean centricity = true;
     private final double TRIGGER_CONSTANT = 0.15;
     private final double SLOW_MODE_PERCENT = 0.4;
     private double fieldCentricOffset0 = 0.0;
@@ -161,7 +161,7 @@ public class MainTeleOp extends BaseOpMode {
                 double tempDriveSpeed = driveSpeed *= SLOW_MODE_PERCENT;
                 bot.drive.driveRobotCentric(
                         strafeSpeed * tempDriveSpeed,
-                        forwardSpeed * -tempDriveSpeed,
+                        forwardSpeed * tempDriveSpeed,
                         turnSpeed * tempDriveSpeed
                 );
             }
