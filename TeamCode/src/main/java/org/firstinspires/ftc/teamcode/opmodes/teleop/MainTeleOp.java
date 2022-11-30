@@ -36,34 +36,36 @@ public class MainTeleOp extends BaseOpMode {
         //Subsystem Control =========================================================================================
 
         if (gamepadEx1.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)){
-            bot.outtake.decrementLevel();
+            bot.outtake.linearSlides.decrementLevel();
         }
 
         if (gamepadEx1.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER)) {
-            bot.outtake.incrementLevel();
+            bot.outtake.linearSlides.incrementLevel();
         }
 
         if (gamepadEx1.isDown(Button.A)) {
-            bot.intake.run();
+            bot.intake.flyWheels.run();
         } else if (gamepadEx1.wasJustReleased(Button.A)) {
-            bot.intake.stop();
+            bot.intake.flyWheels.stop();
         }
 
         if (gamepadEx1.isDown(Button.B)) {
-            bot.outtake.openClaw();
-        } else if (gamepadEx1.wasJustReleased(Button.B)) {
-            bot.outtake.closeClaw();
-            bot.outtake.retract();
+            bot.outtake.claw.openClaw();
+        }
+        else if (gamepadEx1.wasJustReleased(Button.B)) {
+            bot.outtake.claw.closeClaw();
+            bot.outtake.linearSlides.retract();
         }
 
         if (gamepadEx1.isDown(Button.X)) {
-            bot.intake.runReverse();
-        } else if (gamepadEx1.wasJustReleased(Button.X)) {
-            bot.intake.stop();
+            bot.intake.flyWheels.runReverse();
+        }
+        else if (gamepadEx1.wasJustReleased(Button.X)) {
+            bot.intake.flyWheels.stop();
         }
 
         if (gamepadEx1.wasJustPressed(Button.Y)) {
-            bot.outtake.extend();
+            bot.outtake.linearSlides.extend();
         }
 
 
