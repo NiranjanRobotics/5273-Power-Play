@@ -52,18 +52,22 @@ public class AprilTagAutonomousInitDetection extends LinearOpMode
     double cy = 221.506;
 
     // UNITS ARE METERS
-    double tagsize = 0.166;
+    double tagsize = 0.166; //When we actually have the apriltags printed, we need to tune this as well
 
-    int ID_LEFT = 0; // Tag ID 18 from the 36h11 family
-    int ID_MIDDLE = 1;
-    int ID_RIGHT = 2;
+    // Tag ID 1,2,3 from the 36h11 family
+    int ID_LEFT = 1;
+    int ID_MIDDLE = 2;
+    int ID_RIGHT = 3;
 
     AprilTagDetection tagOfInterest = null;
 
     @Override
     public void runOpMode()
     {
+        //This is for cam config, if we are going to use the phones cam then we will most likely need to edit this
+        //However, if we use an external webcam, then we won't have to edit anything here.
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        //Note: When config a cam, the name will already be "Webcam 1".
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
@@ -167,31 +171,12 @@ public class AprilTagAutonomousInitDetection extends LinearOpMode
         }
 
         /* Actually do something useful */
-        if(tagOfInterest == null)
-        {
-            /*
-             * Insert your autonomous code here, presumably running some default configuration
-             * since the tag was never sighted during INIT
-             */
-        }
-        else
-        {
-            /*
-             * Insert your autonomous code here, probably using the tag pose to decide your configuration.
-             */
-
-            // e.g.
-
-            if (tagOfInterest != null)
-                if(tagOfInterest.id == ID_LEFT) {
-                    // do something
-                }
-                else if(tagOfInterest.id == ID_MIDDLE) {
-                    // do something else
-                }
-                else if(tagOfInterest.id == ID_RIGHT) {
-                    // do something else
-                }
+        if(tagOfInterest == null || tagOfInterest.id == ID_LEFT){
+            //Park
+        }else if(tagOfInterest.id == ID_MIDDLE){
+            //Park
+        }else{
+            //Park
         }
 
 
