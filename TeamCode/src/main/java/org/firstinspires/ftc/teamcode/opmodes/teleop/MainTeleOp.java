@@ -100,27 +100,27 @@ public class MainTeleOp extends BaseOpMode {
 
     private void drive() {
 
-        final double gyroTolerance = 10;
+        final double gyroscopeTolerance = 10;
 
-        double tempAngle0 = bot.imu0.getAngularOrientation().toAngleUnit(AngleUnit.DEGREES).firstAngle
+        double temporaryAngle0 = bot.imu0.getAngularOrientation().toAngleUnit(AngleUnit.DEGREES).firstAngle
                 - fieldCentricOffset0;
-        double tempAngle1 = bot.imu1.getAngularOrientation().toAngleUnit(AngleUnit.DEGREES).firstAngle
+        double temporaryAngle1 = bot.imu1.getAngularOrientation().toAngleUnit(AngleUnit.DEGREES).firstAngle
                 - fieldCentricOffset1;
 
         // set absolute value of angle always less than or equal to 180
 
-        final double gyroAngle0 = tempAngle0; // accounts for rotation of extension hub and center-lifts angle to -180->180
+        final double gyroscopeAngle0 = temporaryAngle0; // accounts for rotation of extension hub and center-lifts angle to -180->180
 
         // if imu is null, then use other imu
 
-        final double gyroAngle1 = (bot.imu1 != null) ? tempAngle1 :gyroAngle0;
-        final double avgGyroAngle = ((gyroAngle0 + gyroAngle1)/2);
-        telemetry.addData("avgGyroAngle" ,avgGyroAngle);
+        final double gyroscopeAngle1 = (bot.imu1 != null) ? temporaryAngle1 :gyroscopeAngle0;
+        final double averageGyroscopeAngle = (( gyroscopeAngle0 + gyroscopeAngle1)/2);
+        telemetry.addData("averageGyroscopeAngle" ,averageGyroscopeAngle);
 
-        telemetry.addData("tempAngle0", tempAngle0);
-        telemetry.addData("tempAngle1", tempAngle1);
-        telemetry.addData("gyroAngle0", gyroAngle0);
-        telemetry.addData("gyroAngle1", gyroAngle1);
+        telemetry.addData("temporaryAngle0", temporaryAngle0);
+        telemetry.addData("temporaryAngle1", temporaryAngle1);
+        telemetry.addData("gyroAngle0", gyroscopeAngle0);
+        telemetry.addData("gyroAngle1", gyroscopeAngle1);
         telemetry.addData("fieldCentricOffset0", fieldCentricOffset0);
         telemetry.addData("fieldCentricOffset1", fieldCentricOffset1);
 
@@ -142,14 +142,14 @@ public class MainTeleOp extends BaseOpMode {
                         driveVector.getX() * driveSpeed,
                         driveVector.getY() * driveSpeed,
                         turnVector.getX() * driveSpeed,
-                         Math.abs(gyroAngle1 - gyroAngle0) < gyroTolerance ? avgGyroAngle : gyroAngle0
+                         Math.abs(gyroscopeAngle1 - gyroscopeAngle0) < gyroscopeTolerance ? averageGyroscopeAngle : gyroscopeAngle0
 
                         //field centric W
 
 
                         // Epic Java Syntax here
                         /*
-                         * In theory, this check ensures that when the avgGyroAngle is VERY off
+                         * In theory, this check ensures that when the averageGyroscopeAngle is VERY off
                          * due to one IMU giving  near -180, and the second giving near 180 which SHOULD be considered an angle of 0 but its actually in the opposite direction
                          * This problem was encountered while first testing the dual IMU dependant field centric drive
                          * the robot would run two motors on the corners of the robot in opposite directions, causing negligible movement
@@ -158,18 +158,18 @@ public class MainTeleOp extends BaseOpMode {
                 );
             }
             else if (dpadPressed || buttonPressed) {
-                double tempDriveSpeed = driveSpeed *= SLOW_MODE_PERCENT;
+                double temporaryDriveSpeed = driveSpeed * SLOW_MODE_PERCENT;
                 bot.drive.driveRobotCentric(
-                        strafeSpeed * tempDriveSpeed,
-                        forwardSpeed * tempDriveSpeed,
-                        turnSpeed * tempDriveSpeed
+                        strafeSpeed * temporaryDriveSpeed,
+                        forwardSpeed * temporaryDriveSpeed,
+                        turnSpeed * temporaryDriveSpeed
                 );
             }
 
             else {
                 bot.drive.driveRobotCentric(
-                        driveVector.getY() * driveSpeed,
                         driveVector.getX() * driveSpeed,
+                        driveVector.getY() * driveSpeed,
                         turnVector.getX() * driveSpeed
                 );
             }

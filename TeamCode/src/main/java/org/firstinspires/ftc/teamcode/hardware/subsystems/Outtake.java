@@ -117,6 +117,7 @@ public class Outtake extends SubsystemBase {
             case HIGH:
                 return 0.15; //
         }
+        return 0.0;
 
     }
 
