@@ -15,13 +15,16 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.GlobalConfig;
 import org.firstinspires.ftc.teamcode.drive.RRMecanumDrive;
+import org.firstinspires.ftc.teamcode.hardware.subsystems.Intake;
+import org.firstinspires.ftc.teamcode.hardware.subsystems.Outtake;
 
 public class Bot {
     // in TeleOp and Autonomous we should be able to call "new Bot(this)"
 
     public static Bot instance;
 
-    //TODO: Declare subsystems here
+    public final Outtake outtake;
+    public final Intake intake;
 
 
     //required subsystems
@@ -59,7 +62,8 @@ public class Bot {
         this.opMode = opMode;
         enableAutoBulkRead();
 
-        //TODO: initialize subsystems
+        outtake = new Outtake(opMode.hardwareMap);
+        intake = new Intake(opMode.hardwareMap);
 
         //this.templateSubsystem = new TemplateSubsystem(opMode);
 
@@ -92,12 +96,12 @@ public class Bot {
     }
 
     private void initializeImu(BNO055IMU imu) {
-        final BNO055IMU.Parameters params = new BNO055IMU.Parameters();
-        params.mode = BNO055IMU.SensorMode.IMU;
-        params.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        params.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        params.loggingEnabled = false;
-        imu.initialize(params);
+        final BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.mode = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled = false;
+        imu.initialize(parameters);
     }
 
     private void enableAutoBulkRead() {
