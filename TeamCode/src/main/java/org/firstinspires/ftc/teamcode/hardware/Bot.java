@@ -26,6 +26,7 @@ public class Bot {
     public final Outtake outtake;
     public final Intake intake;
 
+    public final MotorEx[] driveTrainMotors;
 
     //required subsystems
     public final MecanumDrive drive;
@@ -67,25 +68,24 @@ public class Bot {
 
         //this.templateSubsystem = new TemplateSubsystem(opMode);
 
-        MotorEx motorFL = new MotorEx(opMode.hardwareMap, GlobalConfig.motorFL, Motor.GoBILDA.RPM_435);
-        motorFL.setInverted(true);
-        motorFL.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        MotorEx motorFR = new MotorEx(opMode.hardwareMap, GlobalConfig.motorFR, Motor.GoBILDA.RPM_435);
-        motorFR.setInverted(false);
-        motorFR.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        MotorEx motorBL = new MotorEx(opMode.hardwareMap, GlobalConfig.motorBL, Motor.GoBILDA.RPM_435);
-        motorBL.setInverted(true);
-        motorBL.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        MotorEx motorBR = new MotorEx(opMode.hardwareMap, GlobalConfig.motorBR, Motor.GoBILDA.RPM_435);
-        motorBR.setInverted(false);
-        motorBR.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        driveTrainMotors = new MotorEx[]{
+                new MotorEx(opMode.hardwareMap, GlobalConfig.motorFL, Motor.GoBILDA.RPM_435),
+                new MotorEx(opMode.hardwareMap, GlobalConfig.motorFR, Motor.GoBILDA.RPM_435),
+                new MotorEx(opMode.hardwareMap, GlobalConfig.motorBL, Motor.GoBILDA.RPM_435),
+                new MotorEx(opMode.hardwareMap, GlobalConfig.motorBR, Motor.GoBILDA.RPM_435)
+        };
+        driveTrainMotors[0].setInverted(true);
+        driveTrainMotors[2].setInverted(true);
+        for(MotorEx motor : driveTrainMotors){
+            motor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        }
 
         //required subsystems
         this.drive = new MecanumDrive(false,
-                motorFL,
-                motorFR,
-                motorBL,
-                motorBR);
+                driveTrainMotors[0],
+                driveTrainMotors[1],
+                driveTrainMotors[2],
+                driveTrainMotors[3]);
 
 
         this.roadRunner = new RRMecanumDrive(opMode.hardwareMap);

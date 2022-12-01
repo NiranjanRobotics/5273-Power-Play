@@ -49,13 +49,13 @@ public class MainTeleOp extends BaseOpMode {
             bot.intake.flyWheels.stop();
         }
 
-        if (gamepadEx1.isDown(Button.B)) {
-            bot.outtake.claw.openClaw();
-        }
-        else if (gamepadEx1.wasJustReleased(Button.B)) {
-            bot.outtake.claw.closeClaw();
-            bot.outtake.linearSlides.retract();
-        }
+//        if (gamepadEx1.isDown(Button.B)) {
+//            bot.outtake.claw.openClaw();
+//        }
+//        else if (gamepadEx1.wasJustReleased(Button.B)) {
+//            bot.outtake.claw.closeClaw();
+//            bot.outtake.linearSlides.retract();
+//        }
 
         if (gamepadEx1.isDown(Button.X)) {
             bot.intake.flyWheels.runReverse();
@@ -66,6 +66,14 @@ public class MainTeleOp extends BaseOpMode {
 
         if (gamepadEx1.wasJustPressed(Button.Y)) {
             bot.outtake.linearSlides.extend();
+        }
+
+
+        if(gamepadEx1.wasJustReleased(Button.DPAD_LEFT)){
+            bot.outtake.linearSlides.extendLeftMotor();
+        }
+        if(gamepadEx1.wasJustReleased(Button.DPAD_RIGHT)){
+            bot.outtake.linearSlides.extendRightMotor();
         }
 
 
@@ -117,6 +125,9 @@ public class MainTeleOp extends BaseOpMode {
 
         final double gyroscopeAngle1 = (bot.imu1 != null) ? temporaryAngle1 :gyroscopeAngle0;
         final double averageGyroscopeAngle = (( gyroscopeAngle0 + gyroscopeAngle1)/2);
+
+        telemetry.addData("L ", bot.drive.isRightSideInverted());
+        telemetry.addData("centricity", centricity);
         telemetry.addData("averageGyroscopeAngle" ,averageGyroscopeAngle);
 
         telemetry.addData("temporaryAngle0", temporaryAngle0);
@@ -126,11 +137,10 @@ public class MainTeleOp extends BaseOpMode {
         telemetry.addData("fieldCentricOffset0", fieldCentricOffset0);
         telemetry.addData("fieldCentricOffset1", fieldCentricOffset1);
 
-        Vector2d driveVector = new Vector2d(gamepadEx1.getLeftY(), gamepadEx1.getLeftX()),
+        Vector2d driveVector = new Vector2d(gamepadEx1.getLeftX(), gamepadEx1.getLeftY()),
                 turnVector = new Vector2d(
                         gamepadEx1.getRightX() , 0);
         if (bot.roadRunner.mode == RRMecanumDrive.Mode.IDLE) {
-
             boolean dpadPressed = (gamepadEx1.getButton(GamepadKeys.Button.DPAD_DOWN) || gamepadEx1.getButton(GamepadKeys.Button.DPAD_UP)
                     || gamepadEx1.getButton(GamepadKeys.Button.DPAD_LEFT) || gamepadEx1.getButton(GamepadKeys.Button.DPAD_RIGHT));
             boolean buttonPressed = (gamepadEx1.getButton(GamepadKeys.Button.X) || gamepadEx1.getButton(GamepadKeys.Button.B));

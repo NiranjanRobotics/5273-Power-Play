@@ -21,7 +21,7 @@ public class LinearSlides {
     private static final int RETRACTED_POSITION = 34;
     private static final int MAXIMUM_POSITION = 680;
     //junction heights TODO: find values for junction heights
-    private static final int GROUND_HEIGHT = 50;
+    private static final int GROUND_HEIGHT = 0;
     private static final int LOW_HEIGHT = 200;
     private static final int MEDIUM_HEIGHT = 400;
     private static final int HIGH_HEIGHT = 600;
@@ -141,39 +141,53 @@ public class LinearSlides {
         rightSlideMotor.setTargetPosition(RETRACTED_POSITION);
     }
 
-//    @Override
-//    public void periodic() {
-//        if (!(leftSlideMotor.atTargetPosition() && rightSlideMotor.atTargetPosition())) {
-//            if (Math.abs(leftSlideMotor.getCurrentPosition()) < Math.abs(leftSlideMotor.getCurrentPosition()) || Math.abs(rightSlideMotor.getCurrentPosition()) < Math.abs(rightSlideMotor.getCurrentPosition())) {
-//                leftSlideMotor.setPositionCoefficient(RETRACT_POSITION_COEFF);
-//                rightSlideMotor.setPositionCoefficient(RETRACT_POSITION_COEFF);
-//                leftSlideMotor.set(RETRACT_SPEED);
-//                rightSlideMotor.set(RETRACT_SPEED);
-//            } else {
-//                leftSlideMotor.set(SLIDE_SPEED);
-//                rightSlideMotor.set(SLIDE_SPEED);
-//                switch (currentLevel) {
-//                    case HIGH:
-//                        leftSlideMotor.setPositionCoefficient(0.015);
-//                        rightSlideMotor.setPositionCoefficient(0.015);
-//                        break;
-//                    case MEDIUM:
-//                        leftSlideMotor.setPositionCoefficient(0.017);
-//                        rightSlideMotor.setPositionCoefficient(0.017);
-//                        break;
-//                    case LOW:
-//                        leftSlideMotor.setPositionCoefficient(0.15);
-//                        rightSlideMotor.setPositionCoefficient(0.15);
-//                        break;
-//                    case GROUND:
-//                        leftSlideMotor.setPositionCoefficient(0.35);
-//                        rightSlideMotor.setPositionCoefficient(0.35);
-//                }
-//            }
-//        }
-//        else{
-//            leftSlideMotor.set(getStopSpeed());
-//            rightSlideMotor.set(getStopSpeed());
-//        }
-//    }
+    public void extendRightMotor(){
+        long startTime=System.nanoTime();
+        while(System.nanoTime()<startTime+1e8){
+            rightSlideMotor.set(SLIDE_SPEED);
+        }
+
+    }
+    public void extendLeftMotor(){
+        long startTime=System.nanoTime();
+        while(System.nanoTime()<startTime+1e8){
+            leftSlideMotor.set(SLIDE_SPEED);
+        }
+
+    }
+
+    public void periodic() {
+        if (!(leftSlideMotor.atTargetPosition() && rightSlideMotor.atTargetPosition())) {
+            if (Math.abs(leftSlideMotor.getCurrentPosition()) < Math.abs(leftSlideMotor.getCurrentPosition()) || Math.abs(rightSlideMotor.getCurrentPosition()) < Math.abs(rightSlideMotor.getCurrentPosition())) {
+                leftSlideMotor.setPositionCoefficient(RETRACT_POSITION_COEFF);
+                rightSlideMotor.setPositionCoefficient(RETRACT_POSITION_COEFF);
+                leftSlideMotor.set(RETRACT_SPEED);
+                rightSlideMotor.set(RETRACT_SPEED);
+            } else {
+                leftSlideMotor.set(SLIDE_SPEED);
+                rightSlideMotor.set(SLIDE_SPEED);
+                switch (currentLevel) {
+                    case HIGH:
+                        leftSlideMotor.setPositionCoefficient(0.30);
+                        rightSlideMotor.setPositionCoefficient(0.015);
+                        break;
+                    case MEDIUM:
+                        leftSlideMotor.setPositionCoefficient(0.034);
+                        rightSlideMotor.setPositionCoefficient(0.017);
+                        break;
+                    case LOW:
+                        leftSlideMotor.setPositionCoefficient(0.30);
+                        rightSlideMotor.setPositionCoefficient(0.15);
+                        break;
+                    case GROUND:
+                        leftSlideMotor.setPositionCoefficient(0.70);
+                        rightSlideMotor.setPositionCoefficient(0.35);
+                }
+            }
+        }
+        else{
+            leftSlideMotor.set(getStopSpeed());
+            rightSlideMotor.set(getStopSpeed());
+        }
+    }
 }

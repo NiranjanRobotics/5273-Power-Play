@@ -14,4 +14,9 @@ public class Outtake extends SubsystemBase {
         claw = new Claw(hardwareMap);
     }
     //todo use them all
+
+    @Override
+    public void periodic() {
+        linearSlides.periodic();
+    }
 }

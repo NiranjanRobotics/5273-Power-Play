@@ -26,4 +26,9 @@ public class Claw {
     }
 
 
+    public void periodic(){ //todo
+        return;
+    }
+
+
 }

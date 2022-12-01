@@ -17,6 +17,7 @@ public class FlyWheels {
 
         leftMotor.setRunMode(Motor.RunMode.RawPower);
         rightMotor.setRunMode(Motor.RunMode.RawPower);
+        leftMotor.setInverted(true);
     }
 
     public void run() {
