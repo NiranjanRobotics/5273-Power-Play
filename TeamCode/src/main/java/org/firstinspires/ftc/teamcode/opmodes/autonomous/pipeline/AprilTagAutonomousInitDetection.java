@@ -44,14 +44,13 @@ public class AprilTagAutonomousInitDetection extends LinearOpMode
 
     // Lens intrinsics
     // UNITS ARE PIXELS
-    // NOTE: this calibration is for the C920 webcam at 800x448.
     // You will need to do your own calibration for other configurations!
 
     //720p
-    double fx = 578.272;
-    double fy = 578.272;
-    double cx = 640;
-    double cy = 360;
+    double fx = 1078.03779;
+    double fy = 1084.50988;
+    double cx = 580.850545;
+    double cy = 245.959325;
 
     // UNITS ARE METERS
     double tagsize = 0.075; //ONLY FOR TESTING
