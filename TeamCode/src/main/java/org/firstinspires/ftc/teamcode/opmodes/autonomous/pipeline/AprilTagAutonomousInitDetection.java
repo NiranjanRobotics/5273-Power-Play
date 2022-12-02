@@ -46,13 +46,15 @@ public class AprilTagAutonomousInitDetection extends LinearOpMode
     // UNITS ARE PIXELS
     // NOTE: this calibration is for the C920 webcam at 800x448.
     // You will need to do your own calibration for other configurations!
+
+    //720p
     double fx = 578.272;
     double fy = 578.272;
-    double cx = 402.145;
-    double cy = 221.506;
+    double cx = 640;
+    double cy = 360;
 
     // UNITS ARE METERS
-    double tagsize = 0.166; //When we actually have the apriltags printed, we need to tune this as well
+    double tagsize = 0.075; //ONLY FOR TESTING
 
     // Tag ID 1,2,3 from the 36h11 family
     int ID_LEFT = 1;
@@ -77,7 +79,7 @@ public class AprilTagAutonomousInitDetection extends LinearOpMode
             @Override
             public void onOpened()
             {
-                camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);
+                camera.startStreaming(1280,720, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
